@@ -1,27 +1,27 @@
 import mongoose from "mongoose";
 
-const collection = 'tickets'
+const collection = "tickets";
 
 let ticketSchema = new mongoose.Schema({
   code: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   purchase_datetime: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
   products: {
-    type: [], // Quiza ref a products, para mas adelante utilizar populate
-    default: []
+    type: [], //* Quiza ref a products, para mas adelante utilizar populate
+    default: [],
   },
   amount: {
-    type: Number
+    type: Number,
   },
   purchaser: {
-    type: String
-  }
-})
+    type: String,
+  },
+});
 
-export const ticketsModel = mongoose.model(collection, ticketSchema)
+export const ticketsModel = mongoose.model(collection, ticketSchema);

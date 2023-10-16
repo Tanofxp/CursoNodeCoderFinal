@@ -22,7 +22,7 @@ const schema = new mongoose.Schema({
   },
   password: {
     type: String,
-    // required: true // Si la dejo en required, hay un en error con Github (pues password esta vacia)
+    //* required: true //* Si la dejo en required, hay un en error con Github (pues password esta vacia)
   },
   cart: {
     type: mongoose.Schema.Types.ObjectId,
@@ -38,10 +38,10 @@ const schema = new mongoose.Schema({
     type: [
       {
         name: {
-          type: String, // Es el nombre del documento (por ejemplo, 'identification')
+          type: String, //* Es el nombre del documento (por ejemplo, 'identification')
         },
         reference: {
-          type: String, // Es el link al archivo
+          type: String, //* Es el link al archivo
         },
       },
     ],
@@ -49,7 +49,7 @@ const schema = new mongoose.Schema({
   },
   last_connection: {
     type: String,
-    default: Date.now(), // Es en milisegundos
+    default: Date.now(), //* Es en milisegundos
   },
 });
 

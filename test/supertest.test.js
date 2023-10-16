@@ -1,28 +1,28 @@
 import supertest from "supertest";
 import chai from "chai";
 
-// IMPORTANTE: Para funcionar este test, antes de ejecutarlo con "npm run supertest"
-// se debe levantar el servidor pertinente "node ./src/app.js"
+//* IMPORTANTE: Para funcionar este test, antes de ejecutarlo con "npm run supertest"
+//* se debe levantar el servidor pertinente "node ./src/app.js"
 
-const requester = supertest('http://localhost:8080'); // Host donde se hacen las peticiones
+const requester = supertest('http://localhost:8080'); //* Host donde se hacen las peticiones
 
 describe('Tests funcionales e integradores', function() {
   
-  // Se ejecutan los test del router de productos
+  //* Se ejecutan los test del router de productos
 
   describe('Tests de router de productos', function() {
   
-    this.timeout(10000) // Setea un tiemout general
+    this.timeout(10000) //* Setea un tiemout general
 
-    // Antes de ejecutar todos los tests del router de productos
+    //* Antes de ejecutar todos los tests del router de productos
 
     before(async function() {
-      this.timeout(10000) // Setea el timeout solo para el before (no se si es necesario)
+      this.timeout(10000) //* Setea el timeout solo para el before (no se si es necesario)
 
       console.log("Se ejecuta el before antes de los tests de router de productos")
     })
 
-    // Empiezan los tests del router de productos
+    //* Empiezan los tests del router de productos
 
     it('El endpoint GET /api/products devuelve todos los productos', async function() {
       const {
@@ -37,15 +37,15 @@ describe('Tests funcionales e integradores', function() {
     })
   })
 
-  // Se ejecutan los test del router de carts
+  //* Se ejecutan los test del router de carts
 
-  // describe('Tests de router de carts', function() {
+  //* describe('Tests de router de carts', function() {
  
-  // })
+  //* })
 
-  // Se ejecutan los test del router de sessions
+  //* Se ejecutan los test del router de sessions
 
-  // describe('Tests de router de sessions', function() {
+  //* describe('Tests de router de sessions', function() {
  
-  // })
+  //* })
 })

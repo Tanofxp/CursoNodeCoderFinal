@@ -5,85 +5,100 @@ import UserService from "../services/user.service.js";
 import CurrentUserDTO from "./DTO/user.dto.js";
 import Mail from "../helpers/mail.js";
 
-const userService = new UserService()
+const userService = new UserService();
 
 const register = async (req, res) => {
-  res.send({ status: "success", message: "User has been created"});
-}
+  res.send({ status: "success", message: "User has been created" });
+};
 
 const registerFail = async (req, res) => {
-  res.status(400).send({status: "error", error: "Authentication failed"})
-}
+  res.status(400).send({ status: "error", error: "Authentication failed" });
+};
 
 const login = async (req, res) => {
-  let user = req.user // Es el user que recibimos de passport (ver en passport.config.js)
-  
+  let user = req.user; //* Es el user que recibimos de passport (ver en passport.config.js)
+
   if (!user) {
-    return res.status(400).send({status: "error", details: "Invalid credentials"})
+    return res
+      .status(400)
+      .send({ status: "error", details: "Invalid credentials" });
   }
 
-  await userService.updateUserLastConnection(user.id)
+  await userService.updateUserLastConnection(user.id);
 
-  let token = jwt.sign(req.user, config.JWT_SECRET, {expiresIn: '24h'})
+  let token = jwt.sign(req.user, config.JWT_SECRET, { expiresIn: "24h" });
 
-  return res.cookie("authToken", token, {httpOnly: true}).send({status: "success"})
-}
+  return res
+    .cookie("authToken", token, { httpOnly: true })
+    .send({ status: "success" });
+};
 
 const loginFail = async (req, res) => {
-  res.status(400).send({status:"error", details: "Login failed"});
-}
+  res.status(400).send({ status: "error", details: "Login failed" });
+};
 
 const logout = async (req, res) => {
-  const user = req.user
-  await userService.updateUserLastConnection(user.id)
+  const user = req.user;
+  await userService.updateUserLastConnection(user.id);
 
-  res.clearCookie('authToken')
-  res.send({status: "sucess"})
-}
+  res.clearCookie("authToken");
+  res.send({ status: "sucess" });
+};
 
 const resetPassword = async (req, res) => {
-  const {email, password} = req.body;
+  const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).send({status: "error", error: "Incomplete values"});
+    return res
+      .status(400)
+      .send({ status: "error", error: "Incomplete values" });
   }
 
   try {
-    const user = await userService.findUser(email)
+    const user = await userService.findUser(email);
     if (validatePassword(password, user)) {
-      return res.status(400).send({status: "failure", error: "New and old password are the same"})
+      return res
+        .status(400)
+        .send({
+          status: "failure",
+          error: "New and old password are the same",
+        });
     }
 
     const newHashedPassword = createHash(password);
 
-    await userService.updatePassword(email, newHashedPassword)
+    await userService.updatePassword(email, newHashedPassword);
 
-    return res.send({status: "success", message: "Password updated"});
+    return res.send({ status: "success", message: "Password updated" });
+  } catch (error) {
+    return res.status(404).send({ status: "error", error: error.message });
   }
-  catch(error) {
-    return res.status(404).send({status: "error", error: error.message});
-  }
-}
+};
 
 const requestResetPassword = async (req, res) => {
-  const {email} = req.body;
+  const { email } = req.body;
 
   if (!email) {
-    return res.status(400).send({status: "error", error: "Incomplete values"});
+    return res
+      .status(400)
+      .send({ status: "error", error: "Incomplete values" });
   }
 
   try {
-
-    const user = await userService.findUser(email)
+    const user = await userService.findUser(email);
 
     if (!user) {
-      return res.status(404).send({status: "error", message: "There is no user with such email"})
+      return res
+        .status(404)
+        .send({ status: "error", message: "There is no user with such email" });
     }
 
-    // Este token va a durar 1 hora
-    let token = jwt.sign({email}, config.JWT_PASSWORD_REQUEST, {expiresIn: '1h'}) 
+    //* Este token va a durar 1 hora
+    let token = jwt.sign({ email }, config.JWT_PASSWORD_REQUEST, {
+      expiresIn: "1h",
+    });
 
-    let mail = new Mail()
+    let mail = new Mail();
 
     await mail.send(
       user,
@@ -94,20 +109,19 @@ const requestResetPassword = async (req, res) => {
         http://localhost:8080/resetPassword?token=${token}
       </div>
       `
-    )
+    );
 
-    return res.send({status: "success", message: "Email sent"});
+    return res.send({ status: "success", message: "Email sent" });
+  } catch (error) {
+    return res.status(404).send({ status: "error", error: error.message });
   }
-  catch(error) {
-    return res.status(404).send({status: "error", error: error.message});
-  }
-}
+};
 
 const github = async (req, res) => {
-  // Vacio (es lo que mandamos a llamar desde el front)
-  // Es para que pase por el middleware, y en cuanto se pueda acceder al perfil, passport
-  // envia la info hacia el callback especificado
-}
+  //* Vacio (es lo que mandamos a llamar desde el front)
+  //* Es para que pase por el middleware, y en cuanto se pueda acceder al perfil, passport
+  //* envia la info hacia el callback especificado
+};
 
 const githubcallback = async (req, res) => {
   const user = {
@@ -116,19 +130,21 @@ const githubcallback = async (req, res) => {
     age: req.user.age,
     role: req.user.role,
     id: req.user._id,
-    cart: req.user.cart
-  }
+    cart: req.user.cart,
+  };
 
-  let token = jwt.sign(user, config.JWT_SECRET, {expiresIn: '24h'})
+  let token = jwt.sign(user, config.JWT_SECRET, { expiresIn: "24h" });
 
-  return res.cookie("authToken", token, {httpOnly: true}).redirect('/products')
-}
+  return res
+    .cookie("authToken", token, { httpOnly: true })
+    .redirect("/products");
+};
 
 const current = async (req, res) => {
-  let userDto = new CurrentUserDTO(req.user)
+  let userDto = new CurrentUserDTO(req.user);
 
   res.send(userDto);
-}
+};
 
 export default {
   register,
@@ -140,5 +156,5 @@ export default {
   requestResetPassword,
   github,
   githubcallback,
-  current
-}
+  current,
+};

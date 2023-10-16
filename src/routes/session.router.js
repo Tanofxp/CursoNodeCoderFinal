@@ -1,58 +1,70 @@
 import { Router } from "express";
 import passport from "passport";
 import sessionController from "../controllers/session.controller.js";
-import { adminRoleAuth, userRoleAuth } from "./middlewares/roles.middlewares.js";
+import {
+  adminRoleAuth,
+  userRoleAuth,
+} from "./middlewares/roles.middlewares.js";
 
-const router = Router()
+const router = Router();
 
-// local routes
+//* local routes
 
 router.post(
-  '/register',
-  passport.authenticate('register', {session: false, failureRedirect: 'registerFail'}),
+  "/register",
+  passport.authenticate("register", {
+    session: false,
+    failureRedirect: "registerFail",
+  }),
   sessionController.register
-)
+);
 
-router.get('/registerFail', sessionController.registerFail)
+router.get("/registerFail", sessionController.registerFail);
 
 router.post(
-  '/login',
-  passport.authenticate('login', {session: false, failureRedirect: 'loginFail'}),
+  "/login",
+  passport.authenticate("login", {
+    session: false,
+    failureRedirect: "loginFail",
+  }),
   sessionController.login
-)
+);
 
-router.get('/loginFail', sessionController.loginFail)
+router.get("/loginFail", sessionController.loginFail);
 
 router.post(
-  '/logout',
-  passport.authenticate('jwt', { session: false }),
+  "/logout",
+  passport.authenticate("jwt", { session: false }),
   sessionController.logout
-)
+);
 
-router.post('/resetPassword', sessionController.resetPassword)
+router.post("/resetPassword", sessionController.resetPassword);
 
-router.post('/requestResetPassword', sessionController.requestResetPassword)
+router.post("/requestResetPassword", sessionController.requestResetPassword);
 
-// github routes
+//* github routes
 
 router.get(
-  '/github',
-  passport.authenticate('github', { scope: 'user:email', session: false}),
+  "/github",
+  passport.authenticate("github", { scope: "user:email", session: false }),
   sessionController.github
 );
 
 router.get(
-  '/githubcallback',
-  passport.authenticate('github', {failureRedirect: '/login', session: false}),
+  "/githubcallback",
+  passport.authenticate("github", {
+    failureRedirect: "/login",
+    session: false,
+  }),
   sessionController.githubcallback
 );
 
-// current
+//* current
 
 router.get(
-  '/current',
-  passport.authenticate('jwt', { session: false }),
+  "/current",
+  passport.authenticate("jwt", { session: false }),
   sessionController.current
 );
 
-export default router
+export default router;

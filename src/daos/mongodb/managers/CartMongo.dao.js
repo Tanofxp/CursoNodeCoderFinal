@@ -1,83 +1,90 @@
 import { cartsModel } from "../models/carts.model.js";
 
 export default class CartManager {
-
   async createCart() {
-    const result = await cartsModel.create({ products: [] })
-    return result
+    const result = await cartsModel.create({ products: [] });
+    return result;
   }
 
   async getCartById(id) {
-    const result = await cartsModel.findOne({ _id: id }).populate('products.product')
-    return result
+    const result = await cartsModel
+      .findOne({ _id: id })
+      .populate("products.product");
+    return result;
   }
 
   async getCarts() {
-    const result = await cartsModel.find({}).populate('products.product')
-    return result
+    const result = await cartsModel.find({}).populate("products.product");
+    return result;
   }
 
   async addProductToCart(cid, newProduct) {
-    const cart = await this.getCartById(cid)
+    const cart = await this.getCartById(cid);
 
-    let product = cart.products.find((prod) => prod.product._id.toString() === newProduct._id.toString() ) // Es el producto, si existe
+    let product = cart.products.find(
+      (prod) => prod.product._id.toString() === newProduct._id.toString()
+    ); //* Es el producto, si existe
 
     if (!product) {
-      cart.products.push({ product: newProduct, quantity: 1 }) // Como el producto no existia anteriormente, se agrega
-      // Se podria pasar el _id en vez del producto entero y funcionaria igual (product: newProduct._id)
+      cart.products.push({ product: newProduct, quantity: 1 }); //* Como el producto no existia anteriormente, se agrega
+      //* Se podria pasar el _id en vez del producto entero y funcionaria igual (product: newProduct._id)
+    } else {
+      product.quantity += 1; //* Como el producto ya existe, solo incremento su cantidad en 1
     }
-    else {
-      product.quantity += 1 // Como el producto ya existe, solo incremento su cantidad en 1
-    }
-    
-    await cart.save()
 
-    return
+    await cart.save();
+
+    return;
   }
 
   async deleteProductFromCart(cid, pid) {
     try {
-      const cart = await this.getCartById(cid)
-      cart.products = cart.products.filter((prod) => prod.product._id.toString() !== pid )
-      await cart.save()
+      const cart = await this.getCartById(cid);
+      cart.products = cart.products.filter(
+        (prod) => prod.product._id.toString() !== pid
+      );
+      await cart.save();
 
-      return
-    } 
-    catch(error) {
-      throw new Error("Product does not exist")
+      return;
+    } catch (error) {
+      throw new Error("Product does not exist");
     }
   }
 
   async deleteAllProductsFromCart(cid) {
-    const cart = await this.getCartById(cid)
-    cart.products = []
-    await cart.save()
+    const cart = await this.getCartById(cid);
+    cart.products = [];
+    await cart.save();
 
-    return
+    return;
   }
 
   async replaceProductsFromCart(cid, newProducts) {
-    const cart = await this.getCartById(cid)
-    cart.products = newProducts
-    await cart.save()
+    const cart = await this.getCartById(cid);
+    cart.products = newProducts;
+    await cart.save();
 
-    return
+    return;
   }
 
   async updateProductQuantityFromCart(cid, pid, newQuantity) {
-    const cart = await this.getCartById(cid)
-    let product = cart.products.find((prod) => prod.product._id.toString() === pid )
-    product.quantity = newQuantity
+    const cart = await this.getCartById(cid);
+    let product = cart.products.find(
+      (prod) => prod.product._id.toString() === pid
+    );
+    product.quantity = newQuantity;
 
-    await cart.save()
+    await cart.save();
 
-    return
+    return;
   }
 
   async getAllProductsFromCart(id) {
-    const cart = await cartsModel.findOne({ _id: id }).populate('products.product').lean()
+    const cart = await cartsModel
+      .findOne({ _id: id })
+      .populate("products.product")
+      .lean();
 
-    return cart.products
+    return cart.products;
   }
-
 }

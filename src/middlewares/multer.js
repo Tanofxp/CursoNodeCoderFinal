@@ -1,26 +1,25 @@
-import multer from 'multer'
-import __dirname from '../utils.js'
+import multer from "multer";
+import __dirname from "../utils.js";
 
-// Configuracion de almacenamiento para multer (para el uploader)
+//* Configuracion de almacenamiento para multer (para el uploader)
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     if (file.fieldname === "profiles" || file.fieldname === "products") {
-      cb(null, `${__dirname}/public/images/${file.fieldname}`)
-    }
-    else {
-      // Los archivos van a ser documentos
-      cb(null, `${__dirname}/public/images/documents/${file.fieldname}`)
+      cb(null, `${__dirname}/public/images/${file.fieldname}`);
+    } else {
+      //* Los archivos van a ser documentos
+      cb(null, `${__dirname}/public/images/documents/${file.fieldname}`);
     }
   },
-  filename: function(req, file, cb) {
-    cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`) 
-    // Para evitar colisiones se utiliza la fecha
-  }
-})
+  filename: function (req, file, cb) {
+    cb(null, `${file.fieldname}-${Date.now()}-${file.originalname}`);
+    //* Para evitar colisiones se utiliza la fecha
+  },
+});
 
-// Uploader de multer
+//* Uploader de multer
 const uploader = multer({
   storage: storage,
-})
+});
 
-export default uploader
+export default uploader;
