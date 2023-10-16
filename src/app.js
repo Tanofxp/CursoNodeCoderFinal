@@ -75,8 +75,8 @@ const swaggerOptions = {
   definition: {
     openapi: "3.0.1",
     info: {
-      title: "Proyecto de Backend - Coderhouse",
-      description: "Documentación del proyecto de Backend - Coderhouse",
+      title: "Proyecto de Back",
+      description: "Documentación del proyecto de Back - Coderhouse",
     },
   },
   apis: [`${__dirname}/docs/**/*.yaml`],

@@ -4,7 +4,9 @@ import viewsController from "../controllers/views.controller.js";
 
 const router = Router();
 
-router.get("/", viewsController.home);
+router.get("/home", viewsController.home);
+
+router.get("/", viewsController.login);
 
 router.get("/realtimeproducts", viewsController.realTimeProducts);
 
@@ -15,8 +17,13 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   viewsController.products
 );
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  viewsController.profile
+);
 
-router.get("/carts/:cid", viewsController.cart);
+router.get("/cart/:cid", viewsController.cart);
 
 router.get("/login", viewsController.login);
 

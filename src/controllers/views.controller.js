@@ -1,74 +1,96 @@
 import ViewService from "../services/views.service.js";
 
-let viewService = new ViewService()
+let viewService = new ViewService();
 
 const home = async (req, res) => {
   let products = await viewService.getProducts();
-
-  res.render('home', {
+  res.render("home", {
     title: "Inicio",
-    products: products.docs
+    products: products.docs,
   });
-}
+};
 
 const realTimeProducts = async (req, res) => {
-  res.render('realTimeProducts');
-}
+  res.render("realTimeProducts");
+};
 
 const chat = async (req, res) => {
-  res.render('chat')
-}
+  res.render("chat");
+};
 
 const products = async (req, res) => {
-  let user = req.user
+  let user = req.user;
 
   if (!user) {
-    return res.redirect('/login')
+    return res.redirect("/login");
   }
 
-  let limit = req.query.limit
-  let page = req.query.page
-  let sort = req.query.sort
+  let limit = req.query.limit;
+  let page = req.query.page;
+  let sort = req.query.sort;
 
-  let products = await viewService.getProducts(limit, page, sort); 
+  if (!limit) {
+    limit = 9;
+  }
+  if (!page) {
+    page = 1;
+  }
 
-  products.prevLink = products.hasPrevPage ? `http://localhost:8080/products?page=${products.prevPage}&limit=${limit}&sort=${sort}` : '';
-  products.nextLink = products.hasNextPage ? `http://localhost:8080/products?page=${products.nextPage}&limit=${limit}&sort=${sort}` : '';
+  let products = await viewService.getProducts(limit, page, sort);
+  console.log(limit, sort);
+  products.prevLink = products.hasPrevPage
+    ? `http://localhost:8080/products?page=${products.prevPage}&limit=${limit}&sort=${sort}`
+    : "";
+  products.nextLink = products.hasNextPage
+    ? `http://localhost:8080/products?page=${products.nextPage}&limit=${limit}&sort=${sort}`
+    : "";
 
-  res.render('products', {
+  res.render("products", {
     title: "Products",
     products: products,
-    user: user
-  })
-}
+    user: user,
+  });
+};
+const profile = async (req, res) => {
+  let user = req.user;
+
+  if (!user) {
+    return res.redirect("/login");
+  }
+  console.log("esto", user);
+  res.render("profile", {
+    title: "Profile",
+    user: user,
+  });
+};
 
 const cart = async (req, res) => {
-  let cartId = req.params.cid
+  let cartId = req.params.cid;
 
-  let cartProducts = await viewService.getAllProductsFromCart(cartId)
+  let cartProducts = await viewService.getAllProductsFromCart(cartId);
 
-  res.render('cart', {
+  res.render("cart", {
     title: "Cart",
     cartProducts: cartProducts,
-    cartId: cartId
-  })
-}
+    cartId: cartId,
+  });
+};
 
 const login = async (req, res) => {
-  res.render('login')
-}
+  res.render("login");
+};
 
 const register = async (req, res) => {
-  res.render('register')
-}
+  res.render("register");
+};
 
 const resetPassword = async (req, res) => {
-  res.render('resetPassword');
-}
+  res.render("resetPassword");
+};
 
 const requestResetPassword = async (req, res) => {
-  res.render('requestResetPassword')
-}
+  res.render("requestResetPassword");
+};
 
 export default {
   home,
@@ -79,5 +101,6 @@ export default {
   login,
   register,
   resetPassword,
-  requestResetPassword
-}
+  requestResetPassword,
+  profile,
+};

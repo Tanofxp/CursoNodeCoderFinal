@@ -7,7 +7,7 @@ export default class ProductManager {
   }
 
   async getProducts(
-    limit = 10,
+    limit = 9,
     page = 1,
     sort = 0,
     filter = null,
@@ -26,7 +26,9 @@ export default class ProductManager {
 
     if (!sort) {
       options = { limit: limit, page: page, lean: true };
+      console.log("esto 1", limit, page);
     } else {
+      console.log("esto 2");
       options = {
         limit: limit,
         page: page,
@@ -41,7 +43,7 @@ export default class ProductManager {
       //* Se utiliza el "_id" en el sort para evitar un "bug" que tiene mongoose:
       //* https://stackoverflow.com/questions/73300233/mongoose-pagination-with-sort-in-not-working-properly
     );
-
+    console.log(result);
     return result;
   }
 

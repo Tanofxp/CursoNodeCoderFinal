@@ -57,12 +57,10 @@ const resetPassword = async (req, res) => {
   try {
     const user = await userService.findUser(email);
     if (validatePassword(password, user)) {
-      return res
-        .status(400)
-        .send({
-          status: "failure",
-          error: "New and old password are the same",
-        });
+      return res.status(400).send({
+        status: "failure",
+        error: "New and old password are the same",
+      });
     }
 
     const newHashedPassword = createHash(password);
