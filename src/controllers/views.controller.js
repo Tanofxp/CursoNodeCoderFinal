@@ -2,10 +2,10 @@ import ViewService from "../services/views.service.js";
 
 let viewService = new ViewService();
 
-const home = async (req, res) => {
+const products = async (req, res) => {
   let products = await viewService.getProducts();
-  res.render("home", {
-    title: "Inicio",
+  res.render("products", {
+    title: "Products",
     products: products.docs,
   });
 };
@@ -18,7 +18,7 @@ const chat = async (req, res) => {
   res.render("chat");
 };
 
-const products = async (req, res) => {
+const home = async (req, res) => {
   let user = req.user;
 
   if (!user) {
@@ -37,16 +37,16 @@ const products = async (req, res) => {
   }
 
   let products = await viewService.getProducts(limit, page, sort);
-  console.log(limit, sort);
+
   products.prevLink = products.hasPrevPage
-    ? `http://localhost:8080/products?page=${products.prevPage}&limit=${limit}&sort=${sort}`
+    ? `http://localhost:8080/home?page=${products.prevPage}&limit=${limit}&sort=${sort}`
     : "";
   products.nextLink = products.hasNextPage
-    ? `http://localhost:8080/products?page=${products.nextPage}&limit=${limit}&sort=${sort}`
+    ? `http://localhost:8080/home?page=${products.nextPage}&limit=${limit}&sort=${sort}`
     : "";
 
-  res.render("products", {
-    title: "Products",
+  res.render("home", {
+    title: "Home",
     products: products,
     user: user,
   });
@@ -57,7 +57,6 @@ const profile = async (req, res) => {
   if (!user) {
     return res.redirect("/login");
   }
-  console.log("esto", user);
   res.render("profile", {
     title: "Profile",
     user: user,
@@ -66,7 +65,7 @@ const profile = async (req, res) => {
 
 const cart = async (req, res) => {
   let cartId = req.params.cid;
-
+  console.log(cartId);
   let cartProducts = await viewService.getAllProductsFromCart(cartId);
 
   res.render("cart", {

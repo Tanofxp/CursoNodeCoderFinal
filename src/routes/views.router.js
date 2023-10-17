@@ -4,7 +4,7 @@ import viewsController from "../controllers/views.controller.js";
 
 const router = Router();
 
-router.get("/home", viewsController.home);
+router.get("/products", viewsController.products);
 
 router.get("/", viewsController.login);
 
@@ -13,9 +13,9 @@ router.get("/realtimeproducts", viewsController.realTimeProducts);
 router.get("/chat", viewsController.chat);
 
 router.get(
-  "/products",
+  "/home",
   passport.authenticate("jwt", { session: false }),
-  viewsController.products
+  viewsController.home
 );
 router.get(
   "/profile",

@@ -1,8 +1,50 @@
-<label>Mensaje:</label>
-<input type="text" id="message-input">
-<button id="send-message-btn">Enviar</button>
-<h1>Chat:</h1>
-<div id="chat-container"></div>
+<div class="container mt-5">
+  <nav class="nav m-5">
+    <a class="nav-link" aria-current="page" href="/home">
+      Home
+    </a>
+    <a class="nav-link" aria-current="page" href="/chat">
+      Chat
+    </a>
+    <a class="nav-link" aria-current="page" href="/cart/{{user.cart}}">
+      Carrito
+    </a>
+    <a class="nav-link" aria-current="page" href="/realtimeproducts">
+      Real Time Products
+    </a>
+    <a class="nav-link" aria-current="page" href="/profile">
+      Perfil de Usuario
+    </a>
+  </nav>
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header d-flex flex-row">
+          <h3 class="card-title">
+            Chat Room
+          </h3>
+          <h3 id="user" class="ms-3"></h3>
+        </div>
+        <div class="card-body chat-container">
+          <p class="message" id="chat-container"></p>
+        </div>
+        <div class="card-footer">
+          <div class="input-group">
+            <input
+              id="message-input"
+              type="text"
+              class="form-control"
+              placeholder="Escriba un mensaje..."
+            />
+            <button id="send-message-btn" class="btn btn-primary">
+              Enviar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>

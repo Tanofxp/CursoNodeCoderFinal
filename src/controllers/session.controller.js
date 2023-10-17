@@ -133,9 +133,7 @@ const githubcallback = async (req, res) => {
 
   let token = jwt.sign(user, config.JWT_SECRET, { expiresIn: "24h" });
 
-  return res
-    .cookie("authToken", token, { httpOnly: true })
-    .redirect("/products");
+  return res.cookie("authToken", token, { httpOnly: true }).redirect("/home");
 };
 
 const current = async (req, res) => {

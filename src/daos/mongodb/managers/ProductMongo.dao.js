@@ -26,9 +26,7 @@ export default class ProductManager {
 
     if (!sort) {
       options = { limit: limit, page: page, lean: true };
-      console.log("esto 1", limit, page);
     } else {
-      console.log("esto 2");
       options = {
         limit: limit,
         page: page,
