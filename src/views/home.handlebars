@@ -101,6 +101,7 @@
     </nav>
   </div>
   {{#if user}}
+    <div name="admin" id="{{user.role}}" hidden >{{user.role}}</div>
     <div class="alert alert-primary" role="alert">
       <div class="row">
         <h4 class="text-center col">
@@ -135,15 +136,17 @@
             <h5>
               {{stock}} unidades
             </h5>
+            <div name="btnAddProduct">
             <button
               id="{{_id}}"
               name="{{../user.cart}}"
               type="button"
-              onclick="addToCart(this.id, this.name)"
+              onclick="addProductToCart(this.id, this.name)"
               class="btn btn-primary"
             >
               Agregar
             </button>
+            </div>
           </div>
         </div>
       </div>
@@ -202,9 +205,18 @@
 </div>
 
 <script>
-  async function addProductToCart(button) {
-    let productId = button.id
-    let cartId = document.getElementById("cart-id").innerText.split(" ")[3] //* TODO: Es muy feo, cambiar
+  function rol(){
+    let rol = document.getElementsByName("admin");
+    let button = document.getElementsByName("btnAddProduct")
+    if(rol[0].id === "admin"){
+      button.forEach((e)=>{
+        e.setAttribute("hidden", true)
+      })
+      
+    }
+  }
+  async function addProductToCart(productId, cartId) {
+
 
     try {     
       let url = "http://localhost:8080/api/carts/"+ cartId + "/product/" + productId
@@ -212,9 +224,27 @@
       const response = await fetch(url, {
         method: 'post'
       });
-    } 
+      
+        Swal.fire({
+                        position: 'Center',
+                        icon: 'success',
+                        title: 'Productro Agregado Correctamente',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
+    
+    }    
     catch(err) {
+            Swal.fire({
+                        position: 'Center',
+                        icon: 'error',
+                        title: 'Error al Cargar el Producto',
+                        showConfirmButton: false,
+                        timer: 1500
+                        })
       console.error(`Error: ${err}`);
     }
   }
+
+  rol();
 </script>

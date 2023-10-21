@@ -44,7 +44,6 @@ const home = async (req, res) => {
   products.nextLink = products.hasNextPage
     ? `http://localhost:8080/home?page=${products.nextPage}&limit=${limit}&sort=${sort}`
     : "";
-
   res.render("home", {
     title: "Home",
     products: products,

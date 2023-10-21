@@ -41,7 +41,7 @@ export default class ProductManager {
       //* Se utiliza el "_id" en el sort para evitar un "bug" que tiene mongoose:
       //* https://stackoverflow.com/questions/73300233/mongoose-pagination-with-sort-in-not-working-properly
     );
-    console.log(result);
+
     return result;
   }
 

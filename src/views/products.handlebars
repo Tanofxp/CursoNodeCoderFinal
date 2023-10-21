@@ -1,18 +1,26 @@
-<h1>
-  Productos:
+<h1 class="text-primary text-center">
+  Productos
 </h1>
-{{#each products}}
-  <div
-    style="border: 1px solid #000; border-radius: 1rem; padding: 1rem; margin-bottom: 1rem"
-  >
-    <p>
-      Title: {{this.title}}
-    </p>
-    <p>
-      Description: {{this.description}}
-    </p>
-    <p>
-      Price: {{this.price}}
-    </p>
-  </div>
-{{/each}}
+<div class="row">
+  {{#each products}}
+    <div class="container-fluid col">
+      <div class="card m-5" style="width: 18rem;">
+        <img src="{{thumbnails}}" class="card-img-top" alt="..." />
+        <div class="card-body">
+          <h5 class="card-title">
+            {{title}}
+          </h5>
+          <p class="card-text">
+            {{descripcion}}
+          </p>
+          <h5>
+            ${{price}}
+          </h5>
+          <h5>
+            {{stock}} unidades
+          </h5>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
