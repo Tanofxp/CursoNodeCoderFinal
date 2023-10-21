@@ -64,13 +64,15 @@ const profile = async (req, res) => {
 
 const cart = async (req, res) => {
   let cartId = req.params.cid;
-  console.log(cartId);
+
   let cartProducts = await viewService.getAllProductsFromCart(cartId);
 
+  let totalPrice = await viewService.getTotalPrice(cartProducts);
   res.render("cart", {
     title: "Cart",
     cartProducts: cartProducts,
     cartId: cartId,
+    totalPrice: totalPrice,
   });
 };
 
