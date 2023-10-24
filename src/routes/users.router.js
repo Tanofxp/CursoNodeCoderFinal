@@ -32,4 +32,16 @@ router.post(
   usersController.updateDocuments
 );
 
+router.get(
+  "/",
+  //* ruta para obtener los datos principales del usuario
+  usersController.getUser
+);
+
+router.delete(
+  "/deleteInactiveUser",
+  //*ruta para eleminimar usuarios que no estan activos por cierto tiempo
+  usersController.deleteInactiveUser
+);
+
 export default router;

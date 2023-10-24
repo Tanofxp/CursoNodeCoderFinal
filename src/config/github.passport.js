@@ -19,13 +19,13 @@ const initializePassportGithub = () => {
       },
       async (accessToken, refreshToken, profile, done) => {
         let user = await userService.findUser(profile._json.html_url);
-
+        console.log(profile);
         if (!user) {
           let newUser = {
             //* Github no nos da "last_name", "age", y "password" (por ello se hardcodean los datos)
             first_name: profile._json.name,
             last_name: "test-lastname",
-            email: profile.profileUrl,
+            email: profile._json.email,
             age: 0,
             password: "",
           };

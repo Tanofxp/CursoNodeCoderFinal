@@ -1,5 +1,7 @@
 import UserService from "../services/user.service.js";
 
+import Mail from "../helpers/mail.js";
+
 const userService = new UserService();
 
 const changeRole = async (req, res) => {
@@ -11,12 +13,10 @@ const changeRole = async (req, res) => {
     switch (user.role) {
       case "user":
         if (user.documents.length < 3) {
-          return res
-            .status(400)
-            .send({
-              status: "failure",
-              message: "Not enough documentation. Role can't be upgraded",
-            });
+          return res.status(400).send({
+            status: "failure",
+            message: "Not enough documentation. Role can't be upgraded",
+          });
         }
 
         await userService.updateUserRole(userId, "premium");
@@ -31,12 +31,10 @@ const changeRole = async (req, res) => {
           message: "User role degraded to user",
         });
       default:
-        return res
-          .status(400)
-          .send({
-            status: "failure",
-            details: "Invalid role. Role can't be updated",
-          });
+        return res.status(400).send({
+          status: "failure",
+          details: "Invalid role. Role can't be updated",
+        });
     }
   } catch (error) {
     return res.status(404).send({ status: "error", error: error.message });
@@ -74,7 +72,41 @@ const updateDocuments = async (req, res) => {
   }
 };
 
+const getUser = async (req, res) => {
+  try {
+    let response = await userService.findUsersProfile();
+    res.send(response);
+  } catch (error) {
+    return res.status(404).send({ status: "error", error: error.message });
+  }
+};
+
+const deleteInactiveUser = async (req, res) => {
+  try {
+    let mailList = await userService.deleteInactiveUser();
+    //* Todas las caillas de Mail tienen que ser validas para evitar errores
+    let mail = new Mail();
+    mailList.map(async (user) => {
+      await mail.send(
+        user,
+        "Usuario Eliminado",
+        `
+      <div style='color: red'>
+        <h1>El suario ${user} fue eliminado Por Inactividad superior a 48Hr </h1>
+      </div>
+      `
+      );
+    });
+
+    return res.send({ status: "success", message: "Email sent" });
+  } catch (error) {
+    return res.status(404).send({ status: "error", error: error.message });
+  }
+};
+
 export default {
   changeRole,
   updateDocuments,
+  getUser,
+  deleteInactiveUser,
 };

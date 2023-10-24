@@ -92,4 +92,41 @@ export default class UserManager {
     //* Guardamos los cambios realizados sobre el usuario
     await user.save();
   }
+  async findUserProfile() {
+    const filter = {};
+    const projection = {
+      first_name: 1,
+      last_name: 1,
+      email: 1,
+      role: 1,
+    };
+    const UserProfile = await userModel.find(filter, projection);
+    return UserProfile;
+  }
+
+  async InactiveUser() {
+    const timeLimit = 172800000; //*Estos son 2 dias
+    //const timeLimit = 1800000; //*Estos son 30 Minutos
+
+    const time = Date.now();
+    const filter = {
+      role: "user",
+    };
+    const projection = {
+      last_connection: 1,
+      email: 1,
+    };
+    let User = await userModel.find(filter, projection);
+    let Mails = [];
+    User.forEach(async (e) => {
+      let dif = time - e.last_connection;
+
+      if (dif > timeLimit) {
+        Mails.push(e.email);
+        await userModel.deleteOne({ _id: e._id });
+      }
+    });
+
+    return Mails;
+  }
 }
