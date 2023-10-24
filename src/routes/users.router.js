@@ -32,8 +32,15 @@ router.post(
   usersController.updateDocuments
 );
 
+router.post(
+  "/deleteUser/:uid",
+  passport.authenticate("jwt", { session: false }),
+  //* ruta para traer todos los usuarios
+  usersController.deleteUser
+);
+
 router.get(
-  "/",
+  "/profile",
   //* ruta para obtener los datos principales del usuario
   usersController.getUser
 );

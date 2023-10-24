@@ -92,6 +92,18 @@ const requestResetPassword = async (req, res) => {
   res.render("requestResetPassword");
 };
 
+const admin = async (req, res) => {
+  let user = req.user;
+
+  if (user.role !== "admin") {
+    return res.redirect("/home");
+  }
+
+  res.render("admin", {
+    title: "Panel de Administracion",
+    user: user,
+  });
+};
 export default {
   home,
   realTimeProducts,
@@ -103,4 +115,5 @@ export default {
   resetPassword,
   requestResetPassword,
   profile,
+  admin,
 };

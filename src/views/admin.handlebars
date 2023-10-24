@@ -1,0 +1,92 @@
+<div>
+  <nav class="nav m-5">
+    <a class="nav-link" aria-current="page" href="/home">
+      Home
+    </a>
+    <a class="nav-link" aria-current="page" href="/chat">
+      Chat
+    </a>
+    <a class="nav-link" aria-current="page" href="/cart/{{user.cart}}">
+      Carrito
+    </a>
+    <a class="nav-link" aria-current="page" href="/realtimeproducts">
+      Real Time Products
+    </a>
+    <a class="nav-link" aria-current="page" href="/profile">
+      Perfil de Usuario
+    </a>
+  </nav>
+</div>
+<div>
+  <h1 class="text-center text-primary">
+    {{title}}
+  </h1>
+</div>
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">
+          #
+        </th>
+        <th scope="col">
+          Nombre
+        </th>
+        <th scope="col">
+          Email
+        </th>
+        <th scope="col">
+          Rol
+        </th>
+        <th scope="col">
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody id="tbody" class="table-group-divider">
+    </tbody>
+  </table>
+</div>
+<script>
+  async function getUsers(){
+    let tbody = document.getElementById("tbody")
+    
+    await axios.get(`/api/users/profile`, {
+      
+    })
+    .then(response => {
+      response.data.forEach((e, i = 0)=>{
+        i++
+        const html = `
+                      <td class="py-5">${i}</td>
+                      <td class="py-5">${e.first_name}</td>
+                      <td class="py-5">${e.email}</td>
+                      <td class="py-5">${e.role}</td>
+                      <td class="py-5"><button id=${e._id} class="btn btn-danger" onclick="deleteUser(this.id)">Eliminar</button></td>
+                      `
+        const tr = document.createElement('tr');
+        tr.id = e._id;
+        tr.innerHTML = html;
+          tbody.appendChild(tr);
+      })
+      
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+    
+  }
+  async function deleteUser(id){
+    console.log("esto",id)
+    // /deleteUser/:uid
+    await axios.get(`/deleteUser/${id}`, {})
+    .then(response => {
+      console.log(response)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+  getUsers()
+</script>

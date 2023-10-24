@@ -1,4 +1,5 @@
 import { userModel } from "../models/users.model.js";
+import cartsController from "../../../controllers/carts.controller.js";
 
 export default class UserManager {
   async addUser(user, cart) {
@@ -93,7 +94,12 @@ export default class UserManager {
     await user.save();
   }
   async findUserProfile() {
-    const filter = {};
+    //* armamos un filtro para que solo traiga usuarios con rol user y premium
+    const filter = {
+      role: {
+        $in: ["user", "premium"],
+      },
+    };
     const projection = {
       first_name: 1,
       last_name: 1,
@@ -110,11 +116,14 @@ export default class UserManager {
 
     const time = Date.now();
     const filter = {
-      role: "user",
+      role: {
+        $in: ["user", "premium"],
+      },
     };
     const projection = {
       last_connection: 1,
       email: 1,
+      cart: 1,
     };
     let User = await userModel.find(filter, projection);
     let Mails = [];
@@ -123,10 +132,15 @@ export default class UserManager {
 
       if (dif > timeLimit) {
         Mails.push(e.email);
+        await cartsController.deleteCartById(e.cart);
         await userModel.deleteOne({ _id: e._id });
       }
     });
 
     return Mails;
+  }
+
+  async deleteUser(id) {
+    await userModel.deleteOne({ _id: id });
   }
 }

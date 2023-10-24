@@ -15,6 +15,9 @@
     <a class="nav-link" aria-current="page" href="/profile">
       Perfil de Usuario
     </a>
+    <a name="panel" class="nav-link" aria-current="page" href="/admin">
+    Panel De Administracion
+    </a>
   </nav>
   <div class="input-group">
     <a class="btn btn-primary me-1" href="http://localhost:8080/home/?limit=5">
@@ -207,13 +210,17 @@
 <script>
   function rol(){
     let rol = document.getElementsByName("admin");
+    let panel = document.getElementsByName("panel")
     let button = document.getElementsByName("btnAddProduct")
     if(rol[0].id === "admin"){
       button.forEach((e)=>{
         e.setAttribute("hidden", true)
       })
       
+    }else{
+      panel[0].setAttribute("hidden", true)
     }
+    
   }
   async function addProductToCart(productId, cartId) {
 

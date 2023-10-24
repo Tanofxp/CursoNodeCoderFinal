@@ -40,13 +40,11 @@ const addProductToCart = async (req, res, next) => {
     let product = await productsService.getProductById(productId);
     if (product.owner === req.user.email) {
       //* El creador del producto no puede agregarlo a su carrito
-      return res
-        .status(403)
-        .send({
-          status: "failure",
-          details:
-            "You are the product owner. You can't add that product to your cart",
-        });
+      return res.status(403).send({
+        status: "failure",
+        details:
+          "You are the product owner. You can't add that product to your cart",
+      });
     }
 
     await cartService.addProductToCart(cartId, productId);
@@ -140,6 +138,11 @@ const purchaseProductsFromCart = async (req, res) => {
   res.send({ status: "success", payload: payload });
 };
 
+const deleteCartById = async (cartId) => {
+  await cartService.deleteCartById(cartId);
+  res.send({ status: "success" });
+};
+
 export default {
   getCarts,
   getCartById,
@@ -150,4 +153,5 @@ export default {
   replaceProductsFromCart,
   updateProductQuantityFromCart,
   purchaseProductsFromCart,
+  deleteCartById,
 };

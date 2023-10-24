@@ -53,4 +53,9 @@ export default class UserService {
     let result = await this.userDao.InactiveUser();
     return result;
   }
+
+  async deleteUser(id) {
+    let result = await this.userDao.deleteUser();
+    return result;
+  }
 }

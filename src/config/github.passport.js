@@ -18,7 +18,7 @@ const initializePassportGithub = () => {
         callbackURL: "http://localhost:8080/api/sessions/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
-        let user = await userService.findUser(profile._json.html_url);
+        let user = await userService.findUser(profile._json.email);
         console.log(profile);
         if (!user) {
           let newUser = {

@@ -104,9 +104,23 @@ const deleteInactiveUser = async (req, res) => {
   }
 };
 
+const deleteUser = async (req, res) => {
+  try {
+    let userId = req.params.uid;
+    await userService.deleteUser(userId);
+    return res.send({
+      status: "success",
+      message: "Usuario Eliminado Con exito",
+    });
+  } catch (error) {
+    return res.status(404).send({ status: "error", error: error.message });
+  }
+};
+
 export default {
   changeRole,
   updateDocuments,
   getUser,
   deleteInactiveUser,
+  deleteUser,
 };

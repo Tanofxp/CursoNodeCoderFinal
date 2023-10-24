@@ -38,6 +38,12 @@ router.get(
   viewsController.resetPassword
 );
 
+router.get(
+  "/admin",
+  passport.authenticate("jwt", { session: false }),
+  viewsController.admin
+);
+
 router.get("/requestResetPassword", viewsController.requestResetPassword);
 
 export default router;
