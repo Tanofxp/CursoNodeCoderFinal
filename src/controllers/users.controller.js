@@ -15,25 +15,26 @@ const changeRole = async (req, res) => {
         if (user.documents.length < 3) {
           return res.status(400).send({
             status: "failure",
-            message: "Not enough documentation. Role can't be upgraded",
+            message:
+              "No hay suficiente documentación. El rol no se puede actualizar",
           });
         }
 
         await userService.updateUserRole(userId, "premium");
         return res.send({
           status: "success",
-          message: "User role upgraded to premium",
+          message: "Rol de usuario actualizado a premium",
         });
       case "premium":
         await userService.updateUserRole(userId, "user");
         return res.send({
           status: "success",
-          message: "User role degraded to user",
+          message: "Rol de usuario degradado a usuario",
         });
       default:
         return res.status(400).send({
           status: "failure",
-          details: "Invalid role. Role can't be updated",
+          details: "Rol no válido. El rol no se puede actualizar",
         });
     }
   } catch (error) {

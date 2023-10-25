@@ -10,7 +10,7 @@ export default class UserManager {
 
       return result;
     } catch (error) {
-      throw new Error("User couldn't be created");
+      throw new Error("No se pudo crear el usuario");
     }
   }
 
@@ -30,7 +30,7 @@ export default class UserManager {
     let user = await userModel.findOne({ email });
 
     if (!user) {
-      throw new Error("User wasn't found");
+      throw new Error("El usuario no fue encontrado");
     }
 
     await userModel.updateOne(
@@ -43,7 +43,7 @@ export default class UserManager {
     let user = await userModel.findOne({ _id: id });
 
     if (!user) {
-      throw new Error("User wasn't found");
+      throw new Error("El usuario no fue encontrado");
     }
 
     await userModel.updateOne({ _id: user._id }, { $set: { role: newRole } });

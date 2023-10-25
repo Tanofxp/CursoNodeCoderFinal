@@ -91,8 +91,6 @@
               <h6 id="code"></h6>
               <h6 id="purchase_datetime"></h6>
               <h6 id="purchaser"></h6>
-              <h6>Productos:</h6>
-              <h6 id="products"></h6>
               <h6 id="amount"></h6>
             </div>
 
@@ -116,10 +114,8 @@
     let code = document.getElementById("code").innerHTML = `Numero: ${ticket.code}` 
     let purchase_datetime = document.getElementById("purchase_datetime").innerHTML = `Fecha: ${ticket.purchase_datetime}`
     let purchaser = document.getElementById("purchaser").innerHTML = `Comprador: ${ticket.purchaser}` 
-    let products = document.getElementById("products")
     let amount = document.getElementById("amount").innerHTML = `Total: ${ticket.amount}` 
-    console.log(ticket)
-    console.log(ticket.products)
+
     myModal.show()
   }
   async function deleteProduct(id, cartId) {
@@ -139,6 +135,15 @@
     })
     .catch(error => {
       console.log(error)
+      Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        toast: true,
+                        title: `${error.response.data.details}`,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        timer: 3000
+                        })
     })
     
   }
@@ -157,12 +162,23 @@
                         showConfirmButton: false,
                         timer: 1500
                         })
+      console.log(response)
       console.log(response.data.payload.ticket)
       let ticket = response.data.payload.ticket
       
       showModal(ticket)
       
-      window.location.reload(2);
+    }).catch(error => {
+      console.log("esto",error)
+      Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        toast: true,
+                        title: `${error.response.data.details}`,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        timer: 3000
+                        })
     })
   }
 </script>

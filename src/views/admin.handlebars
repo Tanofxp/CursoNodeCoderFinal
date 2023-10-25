@@ -68,8 +68,8 @@
                                 Action
                               </button>
                               <ul class="dropdown-menu dropdown-menu-dark">
-                                <li><button id=${e._id} class="dropdown-item" onclick="upgradeUser(this.id)">Upgrade rol</button></li>
-                                <li><button id=${e._id} class="dropdown-item" onclick="deleteUser(this.id)">Delete</button></li>
+                                <li><button id=${e._id} class="dropdown-item" onclick="upgradeUser(this.id)">Cambio de Rol</button></li>
+                                <li><button id=${e._id} class="dropdown-item" onclick="deleteUser(this.id)">Eliminar</button></li>
                               </ul>
                             </div>
                         </td>
@@ -94,8 +94,10 @@
               Swal.fire({
                         position: 'center',
                         icon: 'success',
+                        toast: true,
                         title: 'Usuario Eliminado Correctamente',
                         showConfirmButton: false,
+                        timerProgressBar: true,
                         timer: 1500
                         })
                         setTimeout(() => window.location.reload(), 1500)
@@ -105,40 +107,39 @@
               Swal.fire({
                         position: 'center',
                         icon: 'error',
-                        title: `${response.message}`,
+                        toast: true,
+                        title: `${eresponse.response.data.message}`,
                         showConfirmButton: false,
+                        timerProgressBar: true,
                         timer: 1500
                         })
     })
   }
-
+  
   async function upgradeUser(id){
     await axios.post(`/api/users/premium/${id}`, {})
       .then(result => {
-    if (result.status === 200) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Se ha modificado el rol de usuario',
-        toast: true,
-        position: 'center',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
-      setTimeout(() => window.location.reload(), 1500) 
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: `No se pudo modificar el rol del usuario (al usuario le falta documentación)`,
-        toast: true,
-        position: 'center',
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
-    }
-  })
+              Swal.fire({
+                          icon: 'success',
+                          title: `${result.data.message}`,
+                          toast: true,
+                          position: 'center',
+                          showConfirmButton: false,
+                          timer: 3000,
+                          timerProgressBar: true,
+                        });
+              setTimeout(() => window.location.reload(), 1500) 
+  }).catch(error => {
+              Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        toast: true,
+                        title: `${error.response.data.message}`,
+                        showConfirmButton: false,
+                        timerProgressBar: true,
+                        timer: 3000
+                        })
+    })
   }
 
   getUsers()

@@ -47,7 +47,7 @@ export default class CartManager {
 
       return;
     } catch (error) {
-      throw new Error("Product does not exist");
+      throw new Error("El producto no existe");
     }
   }
 

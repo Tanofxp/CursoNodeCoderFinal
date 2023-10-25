@@ -80,7 +80,7 @@ const updateProduct = async (req, res, next) => {
     if (!(req.user.role === "admin" || product.owner === req.user.email)) {
       return res.status(403).send({
         status: "failure",
-        details: "You don't have access. You are not the product owner",
+        details: "No tienes acceso. No eres el propietario del producto",
       });
     }
 

@@ -12,7 +12,7 @@ const register = async (req, res) => {
 };
 
 const registerFail = async (req, res) => {
-  res.status(400).send({ status: "error", error: "Authentication failed" });
+  res.status(400).send({ status: "error", error: "Error de autenticación" });
 };
 
 const login = async (req, res) => {
@@ -21,7 +21,7 @@ const login = async (req, res) => {
   if (!user) {
     return res
       .status(400)
-      .send({ status: "error", details: "Invalid credentials" });
+      .send({ status: "error", details: "Credenciales inválidas" });
   }
 
   await userService.updateUserLastConnection(user.id);
@@ -34,7 +34,9 @@ const login = async (req, res) => {
 };
 
 const loginFail = async (req, res) => {
-  res.status(400).send({ status: "error", details: "Login failed" });
+  res
+    .status(400)
+    .send({ status: "error", details: "error de inicio de sesion" });
 };
 
 const logout = async (req, res) => {
@@ -59,7 +61,7 @@ const resetPassword = async (req, res) => {
     if (validatePassword(password, user)) {
       return res.status(400).send({
         status: "failure",
-        error: "New and old password are the same",
+        error: "La contraseña nueva y la antigua son iguales",
       });
     }
 
@@ -79,7 +81,7 @@ const requestResetPassword = async (req, res) => {
   if (!email) {
     return res
       .status(400)
-      .send({ status: "error", error: "Incomplete values" });
+      .send({ status: "error", error: "Valores incompletos" });
   }
 
   try {

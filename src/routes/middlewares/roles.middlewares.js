@@ -2,9 +2,9 @@ export const adminRoleAuth = (req, res, next) => {
   if (req.user.role === "admin") {
     next();
   } else {
-    res.send({
+    res.status(400).send({
       status: "failure",
-      details: "You don't have access. Must be an admin",
+      details: "No tienes acceso. Debe ser administrador",
     });
   }
 };
@@ -13,9 +13,9 @@ export const userRoleAuth = (req, res, next) => {
   if (req.user.role === "user") {
     next();
   } else {
-    res.send({
+    res.status(400).send({
       status: "failure",
-      details: "You don't have access. Must be an user",
+      details: "No tienes acceso. Debe ser un usuario",
     });
   }
 };
@@ -24,9 +24,9 @@ export const premiumRoleAuth = (req, res, next) => {
   if (req.user.role === "premium") {
     next();
   } else {
-    res.send({
+    res.status(400).send({
       status: "failure",
-      details: "You don't have access. Must be premium",
+      details: "No tienes acceso. debe ser premium",
     });
   }
 };
@@ -38,9 +38,9 @@ export const multipleRolesAuth = (roles) => {
       next();
     } else {
       let msg = roles.join(" / ");
-      res.send({
+      res.status(400).send({
         status: "failure",
-        details: "You don't have access. Must be: " + msg,
+        details: "No tienes acceso. Debe ser: " + msg,
       });
     }
   };
