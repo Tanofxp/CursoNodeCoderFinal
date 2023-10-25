@@ -6,9 +6,7 @@
   "main": "Product.js",
   "scripts": {
     "dev": "nodemon src/App.js",
-    "start": "node src/App.js",
-    "test": "mocha ./test/unitTests/*.js",
-    "supertest": "mocha ./test/supertest.test.js"
+    "start": "node src/App.js"
   },
   "keywords": [],
   "author": "",
