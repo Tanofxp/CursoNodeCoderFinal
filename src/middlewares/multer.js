@@ -5,10 +5,10 @@ import __dirname from "../utils.js";
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     if (file.fieldname === "profiles" || file.fieldname === "products") {
-      cb(null, `${__dirname}/public/images/${file.fieldname}`);
+      cb(null, `${__dirname}/public/img/${file.fieldname}`);
     } else {
       //* Los archivos van a ser documentos
-      cb(null, `${__dirname}/public/images/documents/${file.fieldname}`);
+      cb(null, `${__dirname}/public/img/documents/${file.fieldname}`);
     }
   },
   filename: function (req, file, cb) {

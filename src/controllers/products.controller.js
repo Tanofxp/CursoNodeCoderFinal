@@ -1,5 +1,6 @@
 import ProductService from "../services/products.service.js";
 import config from "../config.js";
+import Mail from "../helpers/mail.js";
 
 let productService = new ProductService();
 
@@ -77,12 +78,10 @@ const updateProduct = async (req, res, next) => {
 
     //* El usuario debe ser "admin" o el "owner" del producto
     if (!(req.user.role === "admin" || product.owner === req.user.email)) {
-      return res
-        .status(403)
-        .send({
-          status: "failure",
-          details: "You don't have access. You are not the product owner",
-        });
+      return res.status(403).send({
+        status: "failure",
+        details: "You don't have access. You are not the product owner",
+      });
     }
 
     let newProduct = req.body;
@@ -103,12 +102,19 @@ const deleteProduct = async (req, res, next) => {
 
     //* El usuario debe ser "admin" o el "owner" del producto
     if (!(req.user.role === "admin" || product.owner === req.user.email)) {
-      return res
-        .status(403)
-        .send({
-          status: "failure",
-          details: "You don't have access. You are not the product owner",
-        });
+      return res.status(403).send({
+        status: "failure",
+        details: "No tienes acceso. No eres el propietario del producto",
+      });
+    }
+    if (product.owner !== "admin") {
+      let mail = new Mail();
+
+      await mail.sendByMail(
+        product.owner,
+        "Producto Eliminado",
+        "Un producto que creaste fue eliminado"
+      );
     }
 
     await productService.deleteProduct(id);

@@ -128,7 +128,8 @@
     })
     .then(response => {
       Swal.fire({
-                        position: 'Center',
+                        position: 'center',
+                        toast: true,
                         icon: 'success',
                         title: 'Productro Eliminado Correctamente',
                         showConfirmButton: false,
@@ -149,7 +150,8 @@
     })
     .then(response => {
             Swal.fire({
-                        position: 'Center',
+                        position: 'center',
+                        toast: true,
                         icon: 'success',
                         title: 'Compra Realizada con exito',
                         showConfirmButton: false,
@@ -160,29 +162,7 @@
       
       showModal(ticket)
       
-      //window.location.reload(2);
+      window.location.reload(2);
     })
   }
 </script>
-
-{{!-- {
-    "ticket": {
-        "code": "211ed706-0d9c-46c3-9058-db4ceaf20a51",
-        "products": [
-            {
-                "productId": "652d86a888ca8eac9dc71fe7",
-                "quantity": 1
-            },
-            {
-                "productId": "652d86a888ca8eac9dc71fea",
-                "quantity": 1
-            }
-        ],
-        "amount": 6000,
-        "purchaser": "https://github.com/Tanofxp",
-        "_id": "65341e276994ac34635e5313",
-        "purchase_datetime": "2023-10-21T18:53:27.750Z",
-        "__v": 0
-    },
-    "productsUnableToPurchase": []
-} --}}

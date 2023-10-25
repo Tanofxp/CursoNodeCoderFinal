@@ -21,7 +21,7 @@ form.addEventListener("submit", (e) => {
         icon: "error",
         title: "Nombre de usuario o contraseña incorrectos",
         toast: true,
-        position: "top-end",
+        position: "center",
         showConfirmButton: false,
         timer: 3000,
         timerProgressBar: true,
