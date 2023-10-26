@@ -1,6 +1,6 @@
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 export default {
   PORT: process.env.PORT,
@@ -14,5 +14,6 @@ export default {
   ENVIRONMENT: process.env.ENVIRONMENT,
   MAIL_APP: process.env.MAIL_APP,
   MAIL_APP_PASSWORD: process.env.MAIL_APP_PASSWORD,
-  JWT_PASSWORD_REQUEST: process.env.JWT_PASSWORD_REQUEST
-}
+  JWT_PASSWORD_REQUEST: process.env.JWT_PASSWORD_REQUEST,
+  PASSPORT_CALLBACK_URL: process.env.PASSPORT_CALLBACK_URL,
+};
