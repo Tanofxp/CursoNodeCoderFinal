@@ -20,15 +20,15 @@
     </a>
   </nav>
   <div class="input-group">
-    <a class="btn btn-primary me-1" href="http://localhost:8080/home/?limit=5">
+    <a class="btn btn-primary me-1" href="/home/?limit=5">
       Limite de 5
     </a>
 
-    <a class="btn btn-primary me-1" href="http://localhost:8080/home/?sort=1">
+    <a class="btn btn-primary me-1" href="/home/?sort=1">
       ordenar por precio ascendente
     </a>
 
-    <a class="btn btn-primary me-3" href="http://localhost:8080/home/?sort=-1">
+    <a class="btn btn-primary me-3" href="/home/?sort=-1">
       ordenar por precio descendente
     </a>
 
@@ -226,7 +226,7 @@
 
 
     try {     
-      let url = "http://localhost:8080/api/carts/"+ cartId + "/product/" + productId
+      let url = "/api/carts/"+ cartId + "/product/" + productId
 
       const response = await fetch(url, {
         method: 'post'
