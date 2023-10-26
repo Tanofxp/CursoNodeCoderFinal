@@ -5,7 +5,7 @@
   "description": "",
   "main": "Product.js",
   "scripts": {
-    "start": "node ./src/App.js"
+    "start": "node src/App.js"
   },
   "keywords": [],
   "author": "",
